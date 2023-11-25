@@ -1,0 +1,19 @@
+/target/
+
+# Compiled source #
+*.class
+
+# Package files #
+*.jar
+*.war
+*.ear
+
+# Log files #
+*.log
+
+# VS Code #
+.vscode/
+
+# OS specific #
+.DS_Store
+Thumbs.db
