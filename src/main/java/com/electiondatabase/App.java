@@ -1,4 +1,6 @@
 package com.electiondatabase;
+import javafx.application.Application;
+
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
