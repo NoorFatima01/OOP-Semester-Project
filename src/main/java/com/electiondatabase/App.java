@@ -1,11 +1,10 @@
 package com.electiondatabase;
 
 import javafx.application.Application;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
+import com.electiondatabase.DatabaseService;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -26,17 +25,24 @@ public class App {
             return; // Stop the execution if the connection string can't be loaded
         }
 
-        try (MongoClient mongoClient = MongoClients.create(connectionString)) {
-            MongoDatabase database = mongoClient.getDatabase("election");
-            System.out.println("Connected to the database successfully");
+        DatabaseService databaseService = new DatabaseService(connectionString, "election");
 
-            MongoCollection<Document> votersCollection = database.getCollection("voters");
-            MongoCollection<Document> candidatesCollection = database.getCollection("candidates");
+        try {
+
+            MongoCollection<Document> votersCollection = databaseService.getCollection("voters");
+            MongoCollection<Document> candidatesCollection = databaseService.getCollection("candidates");
 
             Application.launch(MainMenu.class, args);
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
+            
+        } finally {
+            try {
+                databaseService.close(); // Close the database connection here
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }
+}
 }
