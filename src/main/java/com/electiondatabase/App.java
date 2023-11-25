@@ -1,7 +1,6 @@
 package com.electiondatabase;
+
 import javafx.application.Application;
-
-
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -18,6 +17,9 @@ public class App {
 
             MongoCollection<Document> votersCollection = database.getCollection("voters");
             MongoCollection<Document> candidatesCollection = database.getCollection("candidates");
+
+            Application.launch(MainMenu.class, args);
+
 
         } catch (Exception e) {
             e.printStackTrace();
