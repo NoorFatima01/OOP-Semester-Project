@@ -36,3 +36,6 @@ Thumbs.db
 # OS specific #
 .DS_Store
 Thumbs.d
+
+# .gitignore
+config.properties
