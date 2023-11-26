@@ -5,8 +5,9 @@ public class Candidate extends User {
     private String party;
 
     public Candidate(int id, String firstName, String lastName, String region, String party) {
-        super(id, firstName, lastName, region);
+        super(firstName, lastName, region);
         this.party = party;
+        this.votes = 0;
     }
 
     public int getVotes() {
