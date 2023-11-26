@@ -6,15 +6,24 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Properties;
+
+import com.electiondatabase.DatabaseService;
+import com.electiondatabase.ElectionService;
 import com.electiondatabase.ui.ButtonFactory;
 import com.electiondatabase.ui.GridPaneFactory;
 import com.electiondatabase.ui.HeaderLabelFactory;
 
 public class MainMenu extends Application {
     private Stage primaryStage; // Might have to make this static, not sure yet
+    private ElectionService electionService;
+    private DatabaseService databaseService;
 
     @Override
     public void start(Stage primaryStageArg) throws Exception {
+        initServices();
         this.primaryStage = primaryStageArg;
         // Create the registration form grid pane
         GridPane gridPane = new GridPaneFactory().getGridPane();
@@ -46,12 +55,15 @@ public class MainMenu extends Application {
         registerCandidatesButton.setOnAction(e -> openRegisterCandidatesForm());
         castVotersButton.setOnAction(e->openCastVoteForm());
         viewResultsButton.setOnAction(e->openResultsForm());
-        exitButton.setOnAction(e -> primaryStage.close());
+        exitButton.setOnAction(e -> {
+            primaryStage.close();
+            closeDatabase();
+        });
 
     }
 
     private void openRegisterCandidatesForm(){
-        RegisterCandidates registerCandidates = new RegisterCandidates();
+        RegisterCandidates registerCandidates = new RegisterCandidates(electionService);
         registerCandidates.initForm();
     }
     private void openCastVoteForm(){
@@ -62,5 +74,33 @@ public class MainMenu extends Application {
     private void openResultsForm(){
         ResultsForm resultsForm = new ResultsForm();
         resultsForm.initForm();
+    }
+
+    private void initServices() {
+        Properties prop = new Properties();
+        String connectionString;
+
+        try (InputStream input = new FileInputStream("config.properties")) {
+            prop.load(input);
+            connectionString = prop.getProperty("mongo.connection.string");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            // Handle the exception appropriately
+            return;
+        }
+
+        DatabaseService databaseService = new DatabaseService(connectionString, "election");
+        this.electionService = new ElectionService(databaseService);
+        // Other initialization as needed
+    }
+
+    private void closeDatabase(){
+        if (this.electionService != null) {
+            try {
+                this.databaseService.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }    
+        }
     }
 }
