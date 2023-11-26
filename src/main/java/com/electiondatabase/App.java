@@ -1,13 +1,15 @@
 package com.electiondatabase;
 
 import javafx.application.Application;
+
+import com.electiondatabase.forms.MainMenu;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document; // Import the Document class
 
-public class App {
+public class App{
     public static void main(String[] args) {
         String connectionString = "mongodb://localhost:27017";
 
