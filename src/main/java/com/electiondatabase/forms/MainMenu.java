@@ -67,7 +67,7 @@ public class MainMenu extends Application {
         registerCandidates.initForm();
     }
     private void openCastVoteForm(){
-        CastVoteForm castVoteForm = new CastVoteForm();
+        CastVoteForm castVoteForm = new CastVoteForm(electionService);
         castVoteForm.initForm();
     }
 

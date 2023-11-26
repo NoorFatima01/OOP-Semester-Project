@@ -3,7 +3,6 @@ package com.electiondatabase.forms;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,55 +12,76 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-
+import com.electiondatabase.ElectionService;
+import com.electiondatabase.Voter;
 import com.electiondatabase.ui.ButtonFactory;
 import com.electiondatabase.ui.GridPaneFactory;
 import com.electiondatabase.ui.HeaderLabelFactory;
 import com.electiondatabase.ui.TextFieldFactory;
 
 public class CastVoteForm{
-    private TextField nameField;
+    private TextField firstNameField;
+    private TextField lastNameField;
     private TextField regionField;
     private TextField votedCandidateField;
-    private Stage primaryStage = new Stage();;
+    private ElectionService electionService;
+
+    private Stage primaryStage = new Stage();
+
+    public CastVoteForm(ElectionService electionService) {
+        this.electionService = electionService;
+        // rest of your constructor code
+    }
 
     protected void addUIControls(GridPane gridPane) {
-
-     // Add Header
+        // Add Header
         Label headerLabel = new HeaderLabelFactory("Voting Form").getHeaderLabel();
-        gridPane.add(headerLabel, 0,0,2,1);
-
+        gridPane.add(headerLabel, 0, 0, 2, 1);
+    
         Label candNamesLabel = new Label("Registered Candidates");
-        candNamesLabel.setFont(Font.font("Arial",FontWeight.BOLD,12));
-        gridPane.add(candNamesLabel,0,1 );
-        candNamesLabel.setAlignment(Pos.CENTER_LEFT);
+        candNamesLabel.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+        gridPane.add(candNamesLabel, 0, 1);
         GridPane.setHalignment(candNamesLabel, HPos.CENTER);
-
-        // Add Name Label
-        Label nameLabel = new Label("Full Name : ");
-        gridPane.add(nameLabel, 0,3);
-        // Add Name Text Field
-        nameField = new TextFieldFactory().getTextField();
-        gridPane.add(nameField, 1,3);
+    
+        // Add First Name Label
+        Label firstNameLabel = new Label("First Name : ");
+        gridPane.add(firstNameLabel, 0, 2);
+        // Add First Name Text Field
+        firstNameField = new TextFieldFactory().getTextField();
+        gridPane.add(firstNameField, 1, 2);
+    
+        // Add Last Name Label
+        Label lastNameLabel = new Label("Last Name : ");
+        gridPane.add(lastNameLabel, 0, 3);
+        // Add Last Name Text Field
+        lastNameField = new TextFieldFactory().getTextField();
+        gridPane.add(lastNameField, 1, 3);
+    
         // Add Region Label
         Label regionLabel = new Label("Region : ");
         gridPane.add(regionLabel, 0, 4);
         // Add Region Text Field
         regionField = new TextFieldFactory().getTextField();
         gridPane.add(regionField, 1, 4);
-        // Add Party Label
+    
+        // Add Chosen Candidate Label
         Label votedCandidateLabel = new Label("Chosen Candidate : ");
         gridPane.add(votedCandidateLabel, 0, 5);
-        // Add Party Field
+        // Add Chosen Candidate Field
         votedCandidateField = new TextFieldFactory().getTextField();
         gridPane.add(votedCandidateField, 1, 5);
-
-        Button casteButton = new ButtonFactory("Caste Vote").getButton();
+    
+        // Add Cast Vote Button
+        Button casteButton = new ButtonFactory("Cast Vote").getButton();
         gridPane.add(casteButton, 1, 6);
         GridPane.setHalignment(casteButton, HPos.RIGHT);
         GridPane.setMargin(casteButton, new Insets(20, 0, 0, 0));
-        casteButton.setOnAction(null);
+        casteButton.setOnAction(e->{
+            RegisterVoterAndCasteVote();
+            System.out.println("Voter Registered and vote casted");
+        });
     }
+    
 
     public void initForm(){
         GridPane gridPane = new GridPaneFactory().getGridPane();
@@ -69,6 +89,14 @@ public class CastVoteForm{
         Scene scene = new Scene(gridPane, 800, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
-        
     }
+
+    private void RegisterVoterAndCasteVote(){
+        String firstName = firstNameField.getText();
+        String lastName = lastNameField.getText();
+        String region = regionField.getText();
+        String votedCandidate = votedCandidateField.getText();
+        electionService.registerVoter(new Voter(firstName, lastName, region, votedCandidate));
+    }
+
 }
