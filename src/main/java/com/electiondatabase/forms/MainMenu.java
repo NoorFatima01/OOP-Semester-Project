@@ -72,7 +72,7 @@ public class MainMenu extends Application {
     }
 
     private void openResultsForm(){
-        ResultsForm resultsForm = new ResultsForm();
+        ResultsForm resultsForm = new ResultsForm(electionService);
         resultsForm.initForm();
     }
 
