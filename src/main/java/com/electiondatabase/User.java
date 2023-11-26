@@ -1,17 +1,19 @@
 package com.electiondatabase;
 
+import org.bson.types.ObjectId;
+
 public class User {
-    private int id;
+    private ObjectId id;
     protected String firstName, lastName, region;
 
-    public User(int id, String firstName, String lastName, String region) {
-        this.id = id;
+    public User(String firstName, String lastName, String region) {
+        // No need to insert here; MongoDB will do it when the document is inserted
         this.firstName = firstName;
         this.lastName = lastName;
         this.region = region;
     }
 
-    public int getId() {
+    public ObjectId getId() {
         return id;
     }
 
@@ -27,7 +29,7 @@ public class User {
         return region;
     }
 
-    public void setId(int id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 

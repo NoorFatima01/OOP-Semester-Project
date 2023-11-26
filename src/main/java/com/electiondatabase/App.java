@@ -1,30 +1,47 @@
 package com.electiondatabase;
 
 import javafx.application.Application;
-
-import com.electiondatabase.forms.MainMenu;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import org.bson.Document; // Import the Document class
+import org.bson.Document;
+
+
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class App{
     public static void main(String[] args) {
-        String connectionString = "mongodb://localhost:27017";
+        Properties prop = new Properties();
+        String connectionString;
 
-        try (MongoClient mongoClient = MongoClients.create(connectionString)) {
-            MongoDatabase database = mongoClient.getDatabase("election");
-            System.out.println("Connected to the database successfully");
+        try (InputStream input = new FileInputStream("config.properties")) {
+            // Load properties file
+            prop.load(input);
+            // Get the connection string from properties file
+            connectionString = prop.getProperty("mongo.connection.string");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return; // Stop the execution if the connection string can't be loaded
+        }
 
-            MongoCollection<Document> votersCollection = database.getCollection("voters");
-            MongoCollection<Document> candidatesCollection = database.getCollection("candidates");
+        DatabaseService databaseService = new DatabaseService(connectionString, "election");
+
+        try {
+
+            MongoCollection<Document> votersCollection = databaseService.getCollection("voters");
+            MongoCollection<Document> candidatesCollection = databaseService.getCollection("candidates");
 
             Application.launch(MainMenu.class, args);
 
-
         } catch (Exception e) {
             e.printStackTrace();
-        }
+            
+        } finally {
+            try {
+                databaseService.close(); // Close the database connection here
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }
+}
 }

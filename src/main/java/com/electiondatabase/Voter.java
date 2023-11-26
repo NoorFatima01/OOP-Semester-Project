@@ -3,8 +3,8 @@ package com.electiondatabase;
 public class Voter extends User {
     private String votedCandidate;
 
-    public Voter(int id, String firstName, String lastName, String region, String votedCandidate) {
-        super(id, firstName, lastName, region);
+    public Voter(String firstName, String lastName, String region, String votedCandidate) {
+        super(firstName, lastName, region);
         this.votedCandidate = votedCandidate;
     }
 
