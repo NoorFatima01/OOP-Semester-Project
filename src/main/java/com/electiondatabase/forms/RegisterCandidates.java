@@ -67,13 +67,13 @@ public class RegisterCandidates {
 
         submitButton.setOnAction(actionEvent -> 
         {
-            Register();
+            Register(gridPane);
             System.out.println("Candidate Registered");
         }); // Corrected method name
     
         // Alert Label
-        Label alertLabel = new Label("");
-        gridPane.add(alertLabel, 0, 6, 2, 1); // Adjusted row index
+        // Label successLabel = new Label("");
+        // gridPane.add(successLabel, 0, 6, 2, 1); // Adjusted row index
     }
     
 
@@ -85,12 +85,20 @@ public class RegisterCandidates {
         primaryStage.show();
     }
 
-    public void Register(){
+    public void Register(GridPane gridPane){
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
         String region = regionField.getText();
         String party = partyField.getText();
         party = partyField.getText();
         electionService.registerCandidate(new Candidate(firstName, lastName, region, party));
+
+
+        Label successLabel = new Label("Candidate registered successfully");
+        gridPane.add(successLabel, 0, 6, 2, 1); // Adjusted row index
+        firstNameField.clear();
+        lastNameField.clear();
+        regionField.clear();
+        partyField.clear();
     }
 }

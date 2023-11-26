@@ -77,7 +77,7 @@ public class CastVoteForm{
         GridPane.setHalignment(casteButton, HPos.RIGHT);
         GridPane.setMargin(casteButton, new Insets(20, 0, 0, 0));
         casteButton.setOnAction(e->{
-            RegisterVoterAndCasteVote();
+            RegisterVoterAndCasteVote(gridPane);
             System.out.println("Voter Registered and vote casted");
         });
     }
@@ -91,12 +91,22 @@ public class CastVoteForm{
         primaryStage.show();
     }
 
-    private void RegisterVoterAndCasteVote(){
+    private void RegisterVoterAndCasteVote(GridPane gridPane){
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
         String region = regionField.getText();
         String votedCandidate = votedCandidateField.getText();
         electionService.registerVoter(new Voter(firstName, lastName, region, votedCandidate));
+
+        Label successLabel = new Label("Voter registered and vote casted successfully");
+        gridPane.add(successLabel, 0, 7, 2, 1); // Adjust the row index as needed
+        GridPane.setHalignment(successLabel, HPos.CENTER);
+        GridPane.setMargin(successLabel, new Insets(10, 0, 10, 0));
+
+        firstNameField.clear();
+        lastNameField.clear();
+        regionField.clear();
+        votedCandidateField.clear();
     }
 
 }
