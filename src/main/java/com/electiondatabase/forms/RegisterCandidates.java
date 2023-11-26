@@ -2,35 +2,28 @@ package com.electiondatabase.forms;
 
 import com.electiondatabase.ElectionService;
 import com.electiondatabase.ui.ButtonFactory;
-import com.electiondatabase.ui.GridPaneFactory;
 import com.electiondatabase.ui.HeaderLabelFactory;
 import com.electiondatabase.ui.TextFieldFactory;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
-import com.electiondatabase.Candidate; // Add this import statement
+import com.electiondatabase.Candidate;
 
 
-public class RegisterCandidates {
+public class RegisterCandidates extends Form{
     private TextField firstNameField;
     private TextField lastNameField;
-
     private TextField regionField;
     private TextField partyField;
-    private ElectionService electionService;
 
     public RegisterCandidates(ElectionService electionService) {
-        this.electionService = electionService;
+        super(electionService);
         // rest of your constructor code
     }
 
-    private Stage primaryStage = new Stage();
-
-    protected void addUIControls(GridPane gridPane) {
+    public void addUIControls(GridPane gridPane) {
         // Add Header
         Label headerLabel = new HeaderLabelFactory("Registration Form For Candidate").getHeaderLabel();
         gridPane.add(headerLabel, 0, 0, 2, 1);
@@ -69,20 +62,7 @@ public class RegisterCandidates {
         {
             Register(gridPane);
             System.out.println("Candidate Registered");
-        }); // Corrected method name
-    
-        // Alert Label
-        // Label successLabel = new Label("");
-        // gridPane.add(successLabel, 0, 6, 2, 1); // Adjusted row index
-    }
-    
-
-    public void initForm(){
-        GridPane gridPane = new GridPaneFactory().getGridPane();
-        addUIControls(gridPane);
-        Scene scene = new Scene(gridPane, 800, 500);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        });
     }
 
     public void Register(GridPane gridPane){

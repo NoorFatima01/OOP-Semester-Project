@@ -3,37 +3,31 @@ package com.electiondatabase.forms;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
 
 import com.electiondatabase.ElectionService;
 import com.electiondatabase.Voter;
 import com.electiondatabase.ui.ButtonFactory;
-import com.electiondatabase.ui.GridPaneFactory;
 import com.electiondatabase.ui.HeaderLabelFactory;
 import com.electiondatabase.ui.TextFieldFactory;
 
-public class CastVoteForm{
+public class CastVoteForm extends Form{
     private TextField firstNameField;
     private TextField lastNameField;
     private TextField regionField;
     private TextField votedCandidateField;
-    private ElectionService electionService;
-
-    private Stage primaryStage = new Stage();
+    
 
     public CastVoteForm(ElectionService electionService) {
-        this.electionService = electionService;
-        // rest of your constructor code
+        super(electionService);
     }
 
-    protected void addUIControls(GridPane gridPane) {
+    public void addUIControls(GridPane gridPane) {
         // Add Header
         Label headerLabel = new HeaderLabelFactory("Voting Form").getHeaderLabel();
         gridPane.add(headerLabel, 0, 0, 2, 1);
@@ -80,15 +74,6 @@ public class CastVoteForm{
             RegisterVoterAndCasteVote(gridPane);
             System.out.println("Voter Registered and vote casted");
         });
-    }
-    
-
-    public void initForm(){
-        GridPane gridPane = new GridPaneFactory().getGridPane();
-        addUIControls(gridPane);
-        Scene scene = new Scene(gridPane, 800, 500);
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
     private void RegisterVoterAndCasteVote(GridPane gridPane){
