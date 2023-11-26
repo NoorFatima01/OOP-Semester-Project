@@ -1,6 +1,8 @@
 package com.electiondatabase;
 
 import javafx.application.Application;
+
+import com.electiondatabase.forms.MainMenu;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 
