@@ -12,10 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
-// import javafx.scene.text.Font;
-// import javafx.scene.text.FontWeight;
-
-
 
 public class ResultsForm extends Form{
 
@@ -27,10 +23,6 @@ public class ResultsForm extends Form{
          // Add Header
         Label headerLabel = new HeaderLabelFactory("Candidates Progress").getHeaderLabel();
         gridPane.add(headerLabel, 0, 0, 2, 1);
-         
-        // Label winnerLabel = new Label("");
-        // winnerLabel.setFont(Font.font("Arial",FontWeight.BOLD,15));
-        // gridPane.add(winnerLabel,0,4,2,1);
 
         Button winnerButton = new ButtonFactory("Announce Winner").getButton();
         gridPane.add(winnerButton, 0, 7, 2, 1);

@@ -17,11 +17,9 @@ public class GridPaneFactory {
         gridPane.setPadding(new Insets(40, 40, 40, 40));
         gridPane.setHgap(15);
         gridPane.setVgap(15);
-        // Add any other default settings here
     }
 
     public GridPane getGridPane() {
         return gridPane;
     }
 }
-

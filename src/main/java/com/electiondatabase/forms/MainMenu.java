@@ -74,14 +74,14 @@ public class MainMenu extends Application {
     }
 
     private void initServices() {
-        String basePath = "src\\main\\java\\com\\electiondatabase\\"; // Relative path from the current working directory
+        String basePath = "src\\main\\java\\com\\electiondatabase\\"; // Relative path from the current working
+                                                                      // directory
         String votersFilePath = basePath + "votersCollection.csv";
         String candidatesFilePath = basePath + "candidatesCollection.csv";
-    
+
         votersCollectionFileService = new FileService(votersFilePath);
         candidatesColletionFileService = new FileService(candidatesFilePath);
         electionService = new ElectionService(votersCollectionFileService, candidatesColletionFileService);
     }
-
 
 }

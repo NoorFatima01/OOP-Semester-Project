@@ -26,4 +26,3 @@ public class HeaderLabelFactory {
         return headerLabel;
     }
 }
-

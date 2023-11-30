@@ -11,8 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import com.electiondatabase.Candidate;
 
-
-public class RegisterCandidates extends Form{
+public class RegisterCandidates extends Form {
     private TextField firstNameField;
     private TextField lastNameField;
     private TextField regionField;
@@ -27,52 +26,50 @@ public class RegisterCandidates extends Form{
         // Header
         Label headerLabel = new HeaderLabelFactory("Registration Form For Candidate").getHeaderLabel();
         gridPane.add(headerLabel, 0, 0, 2, 1);
-    
+
         // First Name
         Label firstNameLabel = new Label("First Name : ");
         gridPane.add(firstNameLabel, 0, 1);
         firstNameField = new TextFieldFactory().getTextField();
         gridPane.add(firstNameField, 1, 1);
-    
+
         // Last Name
         Label lastNameLabel = new Label("Last Name : ");
         gridPane.add(lastNameLabel, 0, 2);
-        lastNameField = new TextFieldFactory().getTextField(); 
+        lastNameField = new TextFieldFactory().getTextField();
         gridPane.add(lastNameField, 1, 2);
-    
+
         // Region
         Label regionLabel = new Label("Region : ");
-        gridPane.add(regionLabel, 0, 3); 
+        gridPane.add(regionLabel, 0, 3);
         regionField = new TextFieldFactory().getTextField();
-        gridPane.add(regionField, 1, 3); 
-    
+        gridPane.add(regionField, 1, 3);
+
         // Political Party
         Label partyLabel = new Label("Political Party : ");
-        gridPane.add(partyLabel, 0, 4); 
+        gridPane.add(partyLabel, 0, 4);
         partyField = new TextFieldFactory().getTextField();
-        gridPane.add(partyField, 1, 4); 
-    
+        gridPane.add(partyField, 1, 4);
+
         // Submit Button
         Button submitButton = new ButtonFactory("Register").getButton();
-        gridPane.add(submitButton, 0, 5, 2, 1); 
+        gridPane.add(submitButton, 0, 5, 2, 1);
         GridPane.setHalignment(submitButton, HPos.CENTER);
         GridPane.setMargin(submitButton, new Insets(20, 0, 20, 0));
 
-        submitButton.setOnAction(actionEvent -> 
-        {
+        submitButton.setOnAction(actionEvent -> {
             Register(gridPane);
             System.out.println("Candidate Registered");
         });
     }
 
-    public void Register(GridPane gridPane){
+    public void Register(GridPane gridPane) {
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
         String region = regionField.getText();
         String party = partyField.getText();
         party = partyField.getText();
         electionService.registerCandidate(new Candidate(firstName, lastName, region, party));
-
 
         Label successLabel = new Label("Candidate registered successfully");
         gridPane.add(successLabel, 0, 6, 2, 1); // Adjusted row index

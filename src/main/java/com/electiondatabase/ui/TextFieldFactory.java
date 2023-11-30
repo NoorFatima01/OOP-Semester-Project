@@ -12,7 +12,6 @@ public class TextFieldFactory {
 
     private void setDefaultStyles() {
         textField.setPrefHeight(30);
-        // Add any other default settings here
     }
 
     public TextField getTextField() {
