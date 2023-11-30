@@ -20,11 +20,11 @@ public class RegisterCandidates extends Form{
 
     public RegisterCandidates(ElectionService electionService) {
         super(electionService);
-        // rest of your constructor code
+        // is there need to initialize the text fields here?
     }
 
     public void addUIControls(GridPane gridPane) {
-        // Add Header
+        // Header
         Label headerLabel = new HeaderLabelFactory("Registration Form For Candidate").getHeaderLabel();
         gridPane.add(headerLabel, 0, 0, 2, 1);
     
@@ -37,24 +37,24 @@ public class RegisterCandidates extends Form{
         // Last Name
         Label lastNameLabel = new Label("Last Name : ");
         gridPane.add(lastNameLabel, 0, 2);
-        lastNameField = new TextFieldFactory().getTextField(); // Corrected variable name
+        lastNameField = new TextFieldFactory().getTextField(); 
         gridPane.add(lastNameField, 1, 2);
     
         // Region
         Label regionLabel = new Label("Region : ");
-        gridPane.add(regionLabel, 0, 3); // Adjusted row index
+        gridPane.add(regionLabel, 0, 3); 
         regionField = new TextFieldFactory().getTextField();
-        gridPane.add(regionField, 1, 3); // Adjusted row index
+        gridPane.add(regionField, 1, 3); 
     
         // Political Party
         Label partyLabel = new Label("Political Party : ");
-        gridPane.add(partyLabel, 0, 4); // Adjusted row index
+        gridPane.add(partyLabel, 0, 4); 
         partyField = new TextFieldFactory().getTextField();
-        gridPane.add(partyField, 1, 4); // Adjusted row index
+        gridPane.add(partyField, 1, 4); 
     
         // Submit Button
         Button submitButton = new ButtonFactory("Register").getButton();
-        gridPane.add(submitButton, 0, 5, 2, 1); // Adjusted row index
+        gridPane.add(submitButton, 0, 5, 2, 1); 
         GridPane.setHalignment(submitButton, HPos.CENTER);
         GridPane.setMargin(submitButton, new Insets(20, 0, 20, 0));
 

@@ -6,12 +6,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.Properties;
-
-import com.electiondatabase.DatabaseService;
 import com.electiondatabase.ElectionService;
+import com.electiondatabase.FileService;
 import com.electiondatabase.ui.ButtonFactory;
 import com.electiondatabase.ui.GridPaneFactory;
 import com.electiondatabase.ui.HeaderLabelFactory;
@@ -19,7 +15,7 @@ import com.electiondatabase.ui.HeaderLabelFactory;
 public class MainMenu extends Application {
     private Stage primaryStage; // Might have to make this static, not sure yet
     private ElectionService electionService;
-    private DatabaseService databaseService;
+    private FileService votersCollectionFileService, candidatesColletionFileService;
 
     @Override
     public void start(Stage primaryStageArg) throws Exception {
@@ -35,6 +31,7 @@ public class MainMenu extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
     protected void addUI(GridPane gridPane) {
 
         // Add Header
@@ -46,61 +43,45 @@ public class MainMenu extends Application {
         Button castVotersButton = new ButtonFactory("Cast Vote").getButton();
         Button viewResultsButton = new ButtonFactory("View Results/Progress").getButton();
         Button exitButton = new ButtonFactory("Exit").getButton();
-        
+
         gridPane.add(registerCandidatesButton, 0, 1, 2, 1);
         gridPane.add(castVotersButton, 0, 2, 2, 1);
         gridPane.add(viewResultsButton, 0, 3, 2, 1);
         gridPane.add(exitButton, 0, 4, 2, 1);
 
         registerCandidatesButton.setOnAction(e -> openRegisterCandidatesForm());
-        castVotersButton.setOnAction(e->openCastVoteForm());
-        viewResultsButton.setOnAction(e->openResultsForm());
+        castVotersButton.setOnAction(e -> openCastVoteForm());
+        viewResultsButton.setOnAction(e -> openResultsForm());
         exitButton.setOnAction(e -> {
             primaryStage.close();
-            closeDatabase();
         });
 
     }
 
-    private void openRegisterCandidatesForm(){
+    private void openRegisterCandidatesForm() {
         RegisterCandidates registerCandidates = new RegisterCandidates(electionService);
         registerCandidates.initForm();
     }
-    private void openCastVoteForm(){
+
+    private void openCastVoteForm() {
         CastVoteForm castVoteForm = new CastVoteForm(electionService);
         castVoteForm.initForm();
     }
 
-    private void openResultsForm(){
+    private void openResultsForm() {
         ResultsForm resultsForm = new ResultsForm(electionService);
         resultsForm.initForm();
     }
 
     private void initServices() {
-        Properties prop = new Properties();
-        String connectionString;
-
-        try (InputStream input = new FileInputStream("config.properties")) {
-            prop.load(input);
-            connectionString = prop.getProperty("mongo.connection.string");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            // Handle the exception appropriately
-            return;
-        }
-
-        DatabaseService databaseService = new DatabaseService(connectionString, "election");
-        this.electionService = new ElectionService(databaseService);
-        // Other initialization as needed
+        String basePath = "src\\main\\java\\com\\electiondatabase\\"; // Relative path from the current working directory
+        String votersFilePath = basePath + "votersCollection.csv";
+        String candidatesFilePath = basePath + "candidatesCollection.csv";
+    
+        votersCollectionFileService = new FileService(votersFilePath);
+        candidatesColletionFileService = new FileService(candidatesFilePath);
+        electionService = new ElectionService(votersCollectionFileService, candidatesColletionFileService);
     }
 
-    private void closeDatabase(){
-        if (this.electionService != null) {
-            try {
-                this.databaseService.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }    
-        }
-    }
+
 }
