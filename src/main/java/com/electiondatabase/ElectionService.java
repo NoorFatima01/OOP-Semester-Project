@@ -52,9 +52,11 @@ public class ElectionService {
     private void incrementCandidateVotes(String candidateName) {
         try {
             List<String> lines = candidatesColletionFileService.readFromFile();
+            
             for (String line : lines) {
-                if (line.contains(candidateName)) {
-                    String[] details = line.split(",");
+                String[] details = line.split(",");
+                String currentName = details[0] + " " + details[1];
+                if (currentName.equals(candidateName)) {
                     int votes = Integer.parseInt(details[4]);
                     votes++;
                     String newLine = details[0] + "," + details[1] + "," + details[2] + "," + details[3] + "," + votes;
