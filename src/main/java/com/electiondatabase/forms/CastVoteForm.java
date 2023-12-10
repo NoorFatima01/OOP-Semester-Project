@@ -79,17 +79,24 @@ public class CastVoteForm extends Form {
         String lastName = lastNameField.getText();
         String region = regionField.getText();
         String votedCandidate = votedCandidateField.getText();
-        electionService.registerVoter(new Voter(firstName, lastName, region, votedCandidate));
+        if (electionService.registerVoter(new Voter(firstName, lastName, region, votedCandidate))) {
+            Label successLabel = new Label("Voter registered and vote cast successfully");
+            gridPane.add(successLabel, 0, 7, 2, 1);
+            GridPane.setHalignment(successLabel, HPos.CENTER);
+            GridPane.setMargin(successLabel, new Insets(10, 0, 10, 0));
 
-        Label successLabel = new Label("Voter registered and vote casted successfully");
-        gridPane.add(successLabel, 0, 7, 2, 1); // Adjust the row index as needed
-        GridPane.setHalignment(successLabel, HPos.CENTER);
-        GridPane.setMargin(successLabel, new Insets(10, 0, 10, 0));
+            firstNameField.clear();
+            lastNameField.clear();
+            regionField.clear();
+            votedCandidateField.clear();
+        }
+        else{
+            Label successLabel = new Label("Voter not registered. Region of candidate and voter do not match.");
+            gridPane.add(successLabel, 0, 7, 2, 1); 
+            GridPane.setHalignment(successLabel, HPos.CENTER);
+            GridPane.setMargin(successLabel, new Insets(10, 0, 10, 0));
+        }
 
-        firstNameField.clear();
-        lastNameField.clear();
-        regionField.clear();
-        votedCandidateField.clear();
     }
 
 }

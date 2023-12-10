@@ -22,17 +22,26 @@ public class ElectionService {
         }
     }
 
-    public void registerVoter(Voter voter) {
-        incrementCandidateVotes(voter.getVotedCandidate());
-
-        String voterData = voter.getFirstName() + "," + voter.getLastName() + "," + voter.getRegion() + ","
-                + voter.getVotedCandidate();
-        try {
-            votersCollectionFileService.writeToFile(voterData);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public boolean registerVoter(Voter voter) {
+        Candidate candidate = getCandidateByName(voter.getVotedCandidate());
+        if (candidate != null && matchRegion(voter, candidate)) {
+            incrementCandidateVotes(voter.getVotedCandidate());
+    
+            String voterData = voter.getFirstName() + "," + voter.getLastName() + "," + voter.getRegion() + ","
+                    + voter.getVotedCandidate();
+            try {
+                votersCollectionFileService.writeToFile(voterData);
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        } else {
+            System.out.println("Voter's region does not match the candidate's region. Vote not registered.");
+            return false;
         }
     }
+    
 
     public List<String> getAllCandidateNames() {
         List<String> candidateNames = new ArrayList<>();
@@ -52,7 +61,7 @@ public class ElectionService {
     private void incrementCandidateVotes(String candidateName) {
         try {
             List<String> lines = candidatesColletionFileService.readFromFile();
-            
+
             for (String line : lines) {
                 String[] details = line.split(",");
                 String currentName = details[0] + " " + details[1];
@@ -96,4 +105,24 @@ public class ElectionService {
         }
         return winners;
     }
+
+        public Candidate getCandidateByName(String candidateName) {
+        try {
+            List<String> lines = candidatesColletionFileService.readFromFile();
+            for (String line : lines) {
+                String[] details = line.split(",");
+                if ((details[0] + " " + details[1]).equals(candidateName)) {
+                    return new Candidate(details[0], details[1], details[2], details[3]);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean matchRegion(User user1, User user2) {
+        return user1.getRegion().equals(user2.getRegion());
+    }
+    
 }
