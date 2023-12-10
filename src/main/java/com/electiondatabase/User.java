@@ -1,9 +1,9 @@
 package com.electiondatabase;
 
-import org.bson.types.ObjectId;
+// import org.bson.types.ObjectId;
 
 public class User {
-    private ObjectId id;
+    private int id;
     protected String firstName, lastName, region;
 
     public User(String firstName, String lastName, String region) {
@@ -13,7 +13,7 @@ public class User {
         this.region = region;
     }
 
-    public ObjectId getId() {
+    public int getId() {
         return id;
     }
 
@@ -29,7 +29,7 @@ public class User {
         return region;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(int id) {
         this.id = id;
     }
 
