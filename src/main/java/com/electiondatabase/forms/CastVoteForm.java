@@ -2,12 +2,14 @@ package com.electiondatabase.forms;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Window;
 
 import com.electiondatabase.ElectionService;
 import com.electiondatabase.Voter;
@@ -79,24 +81,16 @@ public class CastVoteForm extends Form {
         String lastName = lastNameField.getText();
         String region = regionField.getText();
         String votedCandidate = votedCandidateField.getText();
+
         if (electionService.registerVoter(new Voter(firstName, lastName, region, votedCandidate))) {
-            Label successLabel = new Label("Voter registered and vote cast successfully");
-            gridPane.add(successLabel, 0, 7, 2, 1);
-            GridPane.setHalignment(successLabel, HPos.CENTER);
-            GridPane.setMargin(successLabel, new Insets(10, 0, 10, 0));
-
-            firstNameField.clear();
-            lastNameField.clear();
-            regionField.clear();
-            votedCandidateField.clear();
+            showAlert(Alert.AlertType.INFORMATION, gridPane.getScene().getWindow(), "Success!",
+                    "Voter registered and vote casted successfully");
+        } else {
+            showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Registration Failed",
+                    "Voter not registered. Region of candidate and voter do not match.");
         }
-        else{
-            Label successLabel = new Label("Voter not registered. Region of candidate and voter do not match.");
-            gridPane.add(successLabel, 0, 7, 2, 1); 
-            GridPane.setHalignment(successLabel, HPos.CENTER);
-            GridPane.setMargin(successLabel, new Insets(10, 0, 10, 0));
-        }
-
     }
+
+
 
 }

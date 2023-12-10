@@ -71,8 +71,8 @@ public class RegisterCandidates extends Form {
         party = partyField.getText();
         electionService.registerCandidate(new Candidate(firstName, lastName, region, party));
 
-        Label successLabel = new Label("Candidate registered successfully");
-        gridPane.add(successLabel, 0, 6, 2, 1); // Adjusted row index
+        showAlert(Alert.AlertType.INFORMATION, gridPane.getScene().getWindow(), "Success!",
+                    "Candidate registered successfully");
         firstNameField.clear();
         lastNameField.clear();
         regionField.clear();
